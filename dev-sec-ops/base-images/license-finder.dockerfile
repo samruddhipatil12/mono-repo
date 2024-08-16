@@ -18,5 +18,3 @@ WORKDIR /scan
 ENTRYPOINT ["license_finder"] 
 
 
-
-
