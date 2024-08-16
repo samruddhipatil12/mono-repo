@@ -1,0 +1,25 @@
+name: Base Image for OpenJDK
+
+on: 
+  push:
+    paths:
+      - dev-sec-ops/base-images/**
+
+jobs:
+  build-open-jdk-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build OpenJDK image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/open-jdk:latest -f dev-sec-ops/base-images/openjdk.dockerfile .
+
+      - name: Log in to Docker Registry
+        uses: docker/login-action@v2
+        with: 
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PAT }}
+
+      - name: Push OpenJDK image
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/open-jdk:latest
