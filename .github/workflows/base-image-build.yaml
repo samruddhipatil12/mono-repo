@@ -23,4 +23,5 @@ jobs:
           password: ${{secrets.DOCKER_REGISTRY_PAT}}
 
       - name: Docker push
-        run: docker push ${{secrets.DOCKER_REGISTRY_USER}}/license-finder:latest
+        run: docker push ${{secrets.DOCKER_REGISTRY_USER}}/license-finder:latest  
+        
