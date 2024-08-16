@@ -1,0 +1,24 @@
+name: build-gitleaks-image
+
+on: 
+  push: 
+    paths: "dev-sec-ops/base-images/gitleaks.dockerfile"
+
+jobs:
+  build-gitleaks-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  
+      - name: Build gitleaks image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/gitleaks:latest -f dev-sec-ops/base-images/gitleaks.dockerfile .
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v2
+        with: 
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PAT }}  
+
+      - name: Push gitleaks image
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/gitleaks:latest
