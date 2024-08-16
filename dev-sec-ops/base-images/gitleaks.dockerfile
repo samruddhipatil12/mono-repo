@@ -5,3 +5,4 @@ WORKDIR /path
 ENTRYPOINT [ "gitleaks" ]
 
 
+
