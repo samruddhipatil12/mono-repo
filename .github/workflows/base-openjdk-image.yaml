@@ -3,7 +3,7 @@ name: Base Image for OpenJDK
 on: 
   push:
     paths:
-      - dev-sec-ops/base-images/**
+      - dev-sec-ops/base-images/openjdk.dockerfile
 
 jobs:
   build-open-jdk-images:
