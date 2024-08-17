@@ -1,11 +1,12 @@
-FROM ubuntu:latest
+# Use a base image with the required runtime environment
+# Use a base image with JDK
+FROM samruddhipatil12/openjdk-24-jdk
 
-RUN apt update
-Run apt install -y openjdk-17-jdk
-
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY target/directory-service-0.0.1-SNAPSHOT.jar /app/directory-service.jar 
+# Copy the application JAR file
+COPY . /app
 
-CMD ["java","-jar","directory-service.jar"]
-
+# Start the application
+CMD ["java", "-jar","directory-service.jar"]
