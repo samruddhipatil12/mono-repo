@@ -4,8 +4,11 @@ FROM samruddhipatil12/openjdk-24-jdk
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the application JAR file
-COPY . /app
+# Copy the application JAR file from the target directory
+COPY target/patient-service.jar /app/patient-service.jar
+
+# Expose the application port (if applicable)
+EXPOSE 8080
 
 # Start the application
-CMD ["java", "-jar","patient-service.jar"]
+CMD ["java", "-jar", "/app/patient-service.jar"]
