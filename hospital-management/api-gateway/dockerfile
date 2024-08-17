@@ -4,8 +4,8 @@ FROM samruddhipatil12/openjdk-24-jdk
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the application JAR file
-COPY . /app
+# Copy the JAR file from the target directory
+COPY target/api-gateway.jar /app/api-gateway.jar
 
 # Start the application
-CMD ["java", "-jar","api-gateway.jar"]
+CMD ["java", "-jar","/app/api-gateway.jar"]
