@@ -63,7 +63,7 @@ jobs:
       - name: Push Docker Image for patient-service
         run: 
           docker push ${{secrets.DOCKER_REGISTRY_USER}}/patient-service:latest
-
+          
       - name: Rebuild Docker Image for appointment-service
         run: 
           docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f dockerfile .
