@@ -3,7 +3,7 @@ name: Build and Push Docker Images
 on:
   push:
     paths:
-      - hospital-management
+      - hospital-management/**
 
 jobs:
   build-push-appointment-service:
@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f Dockerfile .
         working-directory: hospital-management/appointment-service
 
       - name: Push Docker Image
@@ -39,11 +39,11 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
-      - name: Build Docker Image for case-service
-        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest -f dockerfile .
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest -f Dockerfile .
         working-directory: hospital-management/case-service
 
-      - name: Push Docker Image for case-service
+      - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest
           
   build-push-directory-service:
@@ -59,11 +59,11 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
-      - name: Build Docker Image for directory-service
-        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/directory-service:latest -f dockerfile .
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/directory-service:latest -f Dockerfile .
         working-directory: hospital-management/directory-service
 
-      - name: Push Docker Image for directory-service
+      - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/directory-service:latest
           
   build-push-api-gateway:
@@ -79,11 +79,11 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
-      - name: Build Docker Image for api-gateway
-        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/api-gateway:latest -f dockerfile .
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/api-gateway:latest -f Dockerfile .
         working-directory: hospital-management/api-gateway
 
-      - name: Push Docker Image for api-gateway
+      - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/api-gateway:latest
           
   build-push-patient-service:
@@ -99,9 +99,9 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
-      - name: Build Docker Image for patient-service
-        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest -f dockerfile .
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest -f Dockerfile .
         working-directory: hospital-management/patient-service
 
-      - name: Push Docker Image for patient-service
+      - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest
