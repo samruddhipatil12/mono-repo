@@ -13,62 +13,69 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        run: 
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f dockerfile .
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build Appointment Service with Maven
+        run: mvn clean package
+        working-directory: hospital-management/appointment-service
+
+      - name: Build Docker Image for appointment-service
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f Dockerfile .
         working-directory: hospital-management/appointment-service
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.DOCKER_REGISTRY_PAT }} 
+          password: ${{ secrets.DOCKER_REGISTRY_PAT }}
 
-      - name: Push Docker Image
-        run: 
-          docker push ${{secrets.DOCKER_REGISTRY_USER}}/appointment-service:latest
+      - name: Push Docker Image for appointment-service
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest
+
+      - name: Build Case Service with Maven
+        run: mvn clean package
+        working-directory: hospital-management/case-service
 
       - name: Build Docker Image for case-service
-        run: 
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest -f dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest -f Dockerfile .
         working-directory: hospital-management/case-service
 
       - name: Push Docker Image for case-service
-        run: 
-          docker push ${{secrets.DOCKER_REGISTRY_USER }}/case-service:latest
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/case-service:latest
+
+      - name: Build Directory Service with Maven
+        run: mvn clean package
+        working-directory: hospital-management/directory-service
 
       - name: Build Docker Image for directory-service
-        run: 
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER}}/directory-service:latest -f dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/directory-service:latest -f Dockerfile .
         working-directory: hospital-management/directory-service
 
       - name: Push Docker Image for directory-service
-        run: 
-          docker push ${{secrets.DOCKER_REGISTRY_USER}}/directory-service:latest
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/directory-service:latest
+
+      - name: Build API Gateway with Maven
+        run: mvn clean package
+        working-directory: hospital-management/api-gateway
 
       - name: Build Docker Image for api-gateway
-        run: 
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER}}/api-gateway:latest -f dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/api-gateway:latest -f Dockerfile .
         working-directory: hospital-management/api-gateway
 
       - name: Push Docker Image for api-gateway
-        run: 
-          docker push ${{secrets.DOCKER_REGISTRY_USER}}/api-gateway:latest
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/api-gateway:latest
+
+      - name: Build Patient Service with Maven
+        run: mvn clean package
+        working-directory: hospital-management/patient-service
 
       - name: Build Docker Image for patient-service
-        run:
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest -f dockerfile .
+        run: docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest -f Dockerfile .
         working-directory: hospital-management/patient-service
 
       - name: Push Docker Image for patient-service
-        run: 
-          docker push ${{secrets.DOCKER_REGISTRY_USER}}/patient-service:latest
-          
-      - name: Rebuild Docker Image for appointment-service
-        run: 
-          docker build -t ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest -f dockerfile .
-        working-directory: hospital-management/appointment-service
-
-      - name: Re-push Docker Image for appointment-service
-        run: 
-          docker push ${{ secrets.DOCKER_REGISTRY_USER }}/appointment-service:latest
+        run: docker push ${{ secrets.DOCKER_REGISTRY_USER }}/patient-service:latest
